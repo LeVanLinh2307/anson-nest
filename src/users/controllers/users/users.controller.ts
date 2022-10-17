@@ -5,7 +5,8 @@ import { HttpException } from '@nestjs/common/exceptions';
 import { SerializeUser } from '../../types/User';
 import { ClassSerializerInterceptor } from '@nestjs/common/serializer';
 import { UseInterceptors } from '@nestjs/common/decorators';
-
+import { ParseIntPipe } from '@nestjs/common/pipes';
+import { UserNotFoundException } from '../../exceptions/UserNotFound.exception';
 @Controller('users')
 export class UsersController {
     constructor(
@@ -19,10 +20,20 @@ export class UsersController {
     }
 
     @UseInterceptors(ClassSerializerInterceptor)
-    @Get('/:username')
+    @Get('/username/:username')
     getByUsername(@Param('username') username: string) {
         const user = this.userService.getUserByUsername(username)
         if (user) return new SerializeUser(user)
         else throw new HttpException('User not found', HttpStatus.BAD_REQUEST)
+    }
+
+    @UseInterceptors(ClassSerializerInterceptor)
+    @Get('id/:id')
+    getById(@Param('id', ParseIntPipe) id: number) {
+        const user = this.userService.getUserById(id)
+        if (user) return new SerializeUser(user)
+        else {
+            throw new UserNotFoundException('User was not found!!!', 500)
+        }
     }
 }
