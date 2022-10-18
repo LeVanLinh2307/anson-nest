@@ -8,24 +8,12 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>) { }
+    constructor(@InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>
+    ) { }
 
     private users: User[] = [
-        {
-            id: 1,
-            username: 'll1',
-            password: '123456'
-        },
-        {
-            id: 2,
-            username: 'll2',
-            password: '123456'
-        },
-        {
-            id: 3,
-            username: 'll3',
-            password: '123456'
-        },
+
     ]
 
     getUsers() {
@@ -43,5 +31,11 @@ export class UsersService {
     createUser(createUserDto: CreateUserDto) {
         const newUser = this.userRepository.create(createUserDto)
         return this.userRepository.save(newUser)
+    }
+
+    findUserByUsername(username: string) {
+        return this.userRepository.findOne({
+            where: { username }
+        })
     }
 }

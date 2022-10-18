@@ -6,9 +6,11 @@ import { CustomersModule } from './customers/customers.module';
 import { UsersModule } from './users/users.module';
 import { User } from './typeorm';
 import entities from './typeorm';
+import { PaymentsModule } from './payments/payments.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [CustomersModule, UsersModule, TypeOrmModule.forRoot({
+  imports: [CustomersModule, UsersModule, PaymentsModule, TypeOrmModule.forRoot({
     type: 'mysql',
     host: 'localhost',
     port: 3306,
@@ -17,7 +19,7 @@ import entities from './typeorm';
     database: 'tutorial_db',
     entities,
     synchronize: true
-  })],
+  }), AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

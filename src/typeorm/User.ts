@@ -10,7 +10,8 @@ export class User {
 
     @Column({
         nullable: false,
-        default: ''
+        default: '',
+        unique: true
     })
     username: string
 
