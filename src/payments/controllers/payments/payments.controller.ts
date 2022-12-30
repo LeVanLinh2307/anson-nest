@@ -19,7 +19,7 @@ export class PaymentsController {
                 .status(400)
                 .send({ msg: 'Missing count or page' })
         } else {
-            response.send(200)
+            response.send(200)wdf
         }
     }
 
